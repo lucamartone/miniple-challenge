@@ -10,6 +10,8 @@ stage1_tokens="${STAGE1_TOKENS:-2100000000}"
 decay_tokens="${DECAY_TOKENS:-900000000}"
 mix_start_tokens="${MIX_START_TOKENS:-1500000000}"
 warmup_tokens="${WARMUP_TOKENS:-10000000}"
+adamw_lr="${ADAMW_LR:-6e-4}"
+muon_lr="${MUON_LR:-8e-4}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-4}"
 export TORCHINDUCTOR_COMPILE_THREADS="${TORCHINDUCTOR_COMPILE_THREADS:-4}"
 export PYTHONUNBUFFERED=1
@@ -63,7 +65,7 @@ printf '%s\n' training >"$out_dir/status"
   --stage1-tokens "$stage1_tokens" --decay-tokens "$decay_tokens" \
   --mix-start-tokens "$mix_start_tokens" \
   --micro-batch 20 --grad-accum 4 --seq-len 2048 \
-  --lr 6e-4 --muon-lr 8e-4 --warmup-tokens "$warmup_tokens" \
+  --lr "$adamw_lr" --muon-lr "$muon_lr" --warmup-tokens "$warmup_tokens" \
   --attn flash --loss-backend liger --dtype bf16 \
   --sampled-softmax pr360 --full-softmax-at-decay \
   --compile --compile-mode max-autotune-no-cudagraphs \
